@@ -7,7 +7,7 @@ Clevel hashing is a lock-free PM hashing index with asynchronous resizing, which
 We implement clevel hashing with PMDK and provide query interfaces similar to the `concurrent_hash_map` in libpmemobj-cpp. The [implementation](include/libpmemobj%2B%2B/experimental/clevel_hash.hpp) and [tests](tests/clevel_hash) for clevel hashing are integrated into the libpmemobj-cpp ([commit@26c86b4699](https://github.com/pmem/libpmemobj-cpp/tree/26c86b46997d25c818b246f2a143d2248503cc67)). Hence, for compilation, please refer to the documentation of libpmemobj-cpp, which is provided [below](#libpmemobj-cpp).
 
 ## Limitation
-- Current tests are used for the performance evaluation, not designed for `ctest`. Please refer to the [instructions](tests/clevel_hash) for the use of test files.
+- Current tests are used for the performance evaluation and not designed for `ctest`. Please refer to the [instructions](tests/clevel_hash) for the use of test files.
 
 ## Contact
 If you have any problems, please feel free to contact me.
