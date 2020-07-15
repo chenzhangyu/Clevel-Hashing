@@ -1362,7 +1362,7 @@ clevel_hash<Key, T, Hash, KeyEqual, HashPower>::expand(
 				m = static_cast<level_meta *>(m_copy(my_pool_uuid));
 				cl = m->first_level.get_address(my_pool_uuid);
 
-				if (cl->capacity >= new_capacity & m->is_resizing)
+				if (cl->capacity >= new_capacity && m->is_resizing)
 				{
 					// CAS fails because other threads help updating meta
 					delete_persistent_atomic<level_meta>(tmp_meta[t_id]);
@@ -1412,7 +1412,7 @@ clevel_hash<Key, T, Hash, KeyEqual, HashPower>::expand(
 					m = static_cast<level_meta *>(m_copy(my_pool_uuid));
 					cl = m->first_level.get_address(my_pool_uuid);
 
-					if (cl->capacity >= new_capacity & m->is_resizing)
+					if (cl->capacity >= new_capacity && m->is_resizing)
 					{
 						// CAS fails because other threads help updating meta
 						delete_persistent_atomic<level_meta>(tmp_meta[t_id]);

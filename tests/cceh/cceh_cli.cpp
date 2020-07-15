@@ -32,7 +32,6 @@ struct root {
 enum class cceh_op {
 	UNKNOWN,
 	PRINT,
-	FREE,
 	ALLOC,
 
 	MAX_OP
@@ -43,8 +42,6 @@ parse_cceh_op(const char *str)
 {
 	if (strcmp(str, "print") == 0)
 		return cceh_op::PRINT;
-	else if (strcmp(str, "free") == 0)
-		return cceh_op::FREE;
 	else if (strcmp(str, "alloc") == 0)
 		return cceh_op::ALLOC;
 	else
@@ -74,33 +71,10 @@ insert_item(nvobj::pool<root> &pop, int i)
 	{
 		UT_OUT("[FAIL] can not insert %d", i);
 	}
-	
+
 }
 
 void
-delete_item(nvobj::pool<root> &pop, int i)
-{
-	// auto map = pop.root()->cons;
-	// UT_ASSERT(map != nullptr);
-
-	// uint8_t key[KEY_LEN] = {0};
-
-	// snprintf(reinterpret_cast<char *>(key), KEY_LEN, "%d", i);
-
-	// auto r = map->erase(key);
-
-	// if (r.found)
-	// {
-	// 	UT_OUT("[SUCCESS] deleted %d in levels[%d] buckets[%ld] slots[%d]",
-	// 		i, r.level_idx, r.bucket_idx, r.slot_idx);
-	// }
-	// else
-	// {
-	// 	UT_OUT("[FAIL] can not delete %d", i);
-	// }
-}
-
-void 
 search_item(nvobj::pool<root> &pop, int i)
 {
 	auto map = pop.root()->cons;
@@ -124,9 +98,12 @@ search_item(nvobj::pool<root> &pop, int i)
 }
 
 void
-print_usage()
+print_usage(char *exe)
 {
-	UT_OUT("[TODO] print_usage");
+	UT_OUT("usage: %s <pool_path> <cmd> <key>\n", exe);
+	UT_OUT("    pool_path: the pool file required for PMDK");
+	UT_OUT("    cmd: a query for a key, including \"print\" (search) and \"alloc\" (insert)");
+	UT_OUT("    key: a key (integer) required for the query\n");
 }
 
 void
@@ -148,7 +125,8 @@ main(int argc, char *argv[])
 	START();
 
 	if (argc != 4) {
-		UT_FATAL("usage: %s <file_name> <print|alloc|free|realloc> <key>", argv[0]);
+		print_usage(argv[0]);
+		UT_FATAL("Illegal arguments!");
 	}
 
 	const char *path = argv[1];
@@ -160,7 +138,7 @@ main(int argc, char *argv[])
 		pop = nvobj::pool<root>::create(
 			path, LAYOUT, PMEMOBJ_MIN_POOL * 20, S_IWUSR | S_IRUSR);
 		auto proot = pop.root();
-		
+
 		nvobj::transaction::manual tx(pop);
 
 		proot->cons = nvobj::make_persistent<persistent_map_type>(2U);
@@ -169,7 +147,7 @@ main(int argc, char *argv[])
 	}
 	else
 	{
-		pop = nvobj::pool<root>::open(path, LAYOUT);	
+		pop = nvobj::pool<root>::open(path, LAYOUT);
 	}
 
 	cceh_op op = parse_cceh_op(argv[2]);
@@ -186,13 +164,9 @@ main(int argc, char *argv[])
 			insert_item(pop, key);
 			break;
 
-		case cceh_op::FREE:
-			delete_item(pop, key);
-			break;
-
 		default:
 			simple_test(pop);
-			print_usage();
+			print_usage(argv[0]);
 			break;
 	}
 

@@ -62,8 +62,7 @@ insert_item(nvobj::pool<root> &pop, int i)
 
 	if (!r.found)
 	{
-		UT_OUT("[SUCCESS] inserted %d in levels[%d] buckets[%d] slots[%d]",
-			i, r.level_idx, r.bucket_idx, r.slot_idx);
+		UT_OUT("[SUCCESS] inserted %d", i);
 	}
 	else
 	{
@@ -75,24 +74,23 @@ insert_item(nvobj::pool<root> &pop, int i)
 void
 delete_item(nvobj::pool<root> &pop, int i)
 {
-	// auto map = pop.root()->cons;
-	// UT_ASSERT(map != nullptr);
+	auto map = pop.root()->cons;
+	UT_ASSERT(map != nullptr);
 
 	// uint8_t key[KEY_LEN] = {0};
 
 	// snprintf(reinterpret_cast<char *>(key), KEY_LEN, "%d", i);
 
-	// auto r = map->erase(key);
+	auto r = map->erase(persistent_map_type::key_type(i), 1);
 
-	// if (r.found)
-	// {
-	// 	UT_OUT("[SUCCESS] deleted %d in levels[%d] buckets[%ld] slots[%d]",
-	// 		i, r.level_idx, r.bucket_idx, r.slot_idx);
-	// }
-	// else
-	// {
-	// 	UT_OUT("[FAIL] can not delete %d", i);
-	// }
+	if (r.found)
+	{
+		UT_OUT("[SUCCESS] found and deleted %d", i);
+	}
+	else
+	{
+		UT_OUT("[FAIL] can not delete %d", i);
+	}
 }
 
 void
@@ -115,9 +113,12 @@ search_item(nvobj::pool<root> &pop, int i)
 }
 
 void
-print_usage()
+print_usage(char *exe)
 {
-	UT_OUT("[TODO] print_usage");
+	UT_OUT("usage: %s <pool_path> <cmd> <key>\n", exe);
+	UT_OUT("    pool_path: the pool file required for PMDK");
+	UT_OUT("    cmd: a query for a key, including \"print\" (search), \"alloc\" (insert), and \"free\" (delete)");
+	UT_OUT("    key: a key (integer) required for the query\n");
 }
 
 void
@@ -140,7 +141,8 @@ main(int argc, char *argv[])
 	START();
 
 	if (argc != 4) {
-		UT_FATAL("usage: %s <file_name> <print|alloc|free|realloc> <key>", argv[0]);
+		print_usage(argv[0]);
+		UT_FATAL("Illegal arguments!");
 	}
 
 	const char *path = argv[1];
@@ -185,7 +187,7 @@ main(int argc, char *argv[])
 
 		default:
 			simple_test(pop);
-			print_usage();
+			print_usage(argv[0]);
 			break;
 	}
 
