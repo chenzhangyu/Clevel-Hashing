@@ -134,6 +134,7 @@ void search_item(nvobj::pool<root> &pop, int i)
 	}
 }
 
+void
 print_usage(char *exe)
 {
 	UT_OUT("usage: %s <pool_path> <cmd> <key>\n", exe);
