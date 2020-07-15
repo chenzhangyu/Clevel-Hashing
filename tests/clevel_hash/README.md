@@ -10,12 +10,12 @@ PM (Intel Optane DC Persistent Memory) is required to be configured in **App Dir
 #### DRAM environment
 
 Run the following command before running tests (for debug only).
-```
+```sh
 $ export PMEM_IS_PMEM_FORCE=1
 ```
 
 #### Workload format
-The workloads are generated using YCSB. We simplified the trace formats for ease of tests. Each line in a workload is a query. The format for each line is "`OP` `KEY`". Possible values for `OP` include "READ", "INSERT", "UPDATE", and "DELETE".
+The workloads are generated using [YCSB](https://github.com/brianfrankcooper/YCSB). We simplified the trace formats for ease of tests. Each line in a workload is a query. The format for each line is "`OP` `KEY`". Possible values for `OP` include "READ", "INSERT", "UPDATE", and "DELETE".
 
 ## Tests
 - `clevel_hash_cli`: a simple test for queries
