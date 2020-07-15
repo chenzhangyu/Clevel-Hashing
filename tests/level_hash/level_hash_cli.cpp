@@ -105,11 +105,13 @@ delete_item(nvobj::pool<root> &pop, int i)
 }
 
 void
-print_usage()
+print_usage(char *exe)
 {
-	UT_OUT("[TODO] print_usage");
+	UT_OUT("usage: %s <pool_path> <cmd> <key>\n", exe);
+	UT_OUT("    pool_path: the pool file required for PMDK");
+	UT_OUT("    cmd: a query for a key, including \"print\" (search), \"alloc\" (insert), and \"free\" (delete)");
+	UT_OUT("    key: a key (integer) required for the query\n");
 }
-
 }
 
 int
@@ -118,7 +120,8 @@ main(int argc, char *argv[])
 	START();
 
 	if (argc != 4) {
-		UT_FATAL("usage: %s <file_name> <print|alloc|free|realloc> <key>", argv[0]);
+		print_usage(argv[0]);
+		UT_FATAL("Illegal arguments!");
 	}
 
 	const char *path = argv[1];
@@ -161,7 +164,7 @@ main(int argc, char *argv[])
 			break;
 
 		default:
-			print_usage();
+			print_usage(argv[0]);
 			break;
 	}
 

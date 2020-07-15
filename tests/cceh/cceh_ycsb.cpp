@@ -82,7 +82,11 @@ main(int argc, char *argv[])
 
 	// parse inputs
 	if (argc != 5) {
-		printf("usage: %s <pool_path> <load_file> <run_file> <thread_num>\n", argv[0]);
+		printf("usage: %s <pool_path> <load_file> <run_file> <thread_num>\n\n", argv[0]);
+		printf("    pool_path: the pool file required for PMDK\n");
+		printf("    load_file: a workload file for the load phase\n");
+		printf("    run_file: a workload file for the run phase\n");
+		printf("    thread_num: the number of threads\n");
 		exit(1);
 	}
 

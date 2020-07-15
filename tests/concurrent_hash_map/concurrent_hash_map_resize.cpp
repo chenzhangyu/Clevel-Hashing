@@ -114,7 +114,9 @@ main(int argc, char *argv[])
 
 	// parse inputs
 	if (argc != 3) {
-		printf("usage: %s <pool_path> <load_file>\n", argv[0]);
+		printf("usage: %s <pool_path> <load_file>\n\n", argv[0]);
+		printf("    pool_path: the pool file required for PMDK\n");
+		printf("    load_file: an insert-only workload file\n");
 		exit(1);
 	}
 

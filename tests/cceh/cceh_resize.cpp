@@ -37,16 +37,15 @@ main(int argc, char *argv[])
 {
 	START();
 
+	// parse inputs
 	if (argc != 3) {
-		UT_FATAL("usage: %s <file_name> <insert_num>", argv[0]);
+		printf("usage: %s <pool_path> <load_file>\n\n", argv[0]);
+		printf("    pool_path: the pool file required for PMDK\n");
+		printf("    load_file: an insert-only workload file\n");
+		exit(1);
 	}
 
 	const char *path = argv[1];
-    size_t insert_num;
-
-	std::stringstream s;
-	s << argv[2];
-	s >> insert_num;
 
 	nvobj::pool<root> pop;
 	remove(path); // delete the mapped file.
@@ -65,7 +64,7 @@ main(int argc, char *argv[])
 
     auto map = proot->cons;
 	printf("initial capacity: %ld\n", map->Capacity());
-	
+
 	FILE *ycsb,*fout;
 	uint8_t key[KEY_LEN];
 	char buf[1024];
@@ -82,9 +81,9 @@ main(int argc, char *argv[])
 	fprintf(fout, "inserted,capacity,load_factor\n");
     // start benchmark
 	size_t inserted = 0;
-	while (getline(&pbuf, &len, ycsb) != -1) 
+	while (getline(&pbuf, &len, ycsb) != -1)
 	{
-		if (strncmp(buf, "INSERT", 6) == 0) 
+		if (strncmp(buf, "INSERT", 6) == 0)
 		{
 			memcpy(key, buf + 7, KEY_LEN - 1);
 

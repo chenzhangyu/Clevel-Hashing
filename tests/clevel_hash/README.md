@@ -32,7 +32,7 @@ USAGE:  ./clevel_hash_cli <pool_path> <cmd> <key>
 USAGE:  ./clevel_hash_resize <pool_path> <load_file>
 
     pool_path: the pool file required for PMDK
-    load_file: an insert-only workload file (matching the [workload format](#Workload-format))
+    load_file: an insert-only workload file
 ```
 
 - `clevel_hash_ycsb`: a test for medium workloads. The number of queries in a workload is 16 millions by default, which can be configured by modifying the MACRO `READ_WRITE_NUM`.
@@ -40,8 +40,8 @@ USAGE:  ./clevel_hash_resize <pool_path> <load_file>
 USAGE:  ./clevel_hash_ycsb <pool_path> <load_file> <run_file> <thread_num>
 
     pool_path: the pool file required for PMDK
-    load_file: a workload file for the load phase (matching the [workload format](#Workload-format))
-    run_file: a workload file for the run phase (matching the [workload format](#Workload-format))
+    load_file: a workload file for the load phase
+    run_file: a workload file for the run phase
     thread_num: the number of threads (>=2, including the background threads for rehashing).
 ```
 
@@ -50,7 +50,7 @@ USAGE:  ./clevel_hash_ycsb <pool_path> <load_file> <run_file> <thread_num>
 USAGE:  ./clevel_hash_ycsb_macro <pool_path> <load_file> <run_file> <thread_num>
 
     pool_path: the pool file required for PMDK
-    load_file: a workload file for the load phase (matching the [workload format](#Workload-format))
-    run_file: a workload file for the run phase (matching the [workload format](#Workload-format))
+    load_file: a workload file for the load phase
+    run_file: a workload file for the run phase
     thread_num: the number of threads (>=2, including the background threads for rehashing).
 ```
