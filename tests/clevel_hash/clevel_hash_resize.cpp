@@ -186,7 +186,9 @@ main(int argc, char *argv[])
 						(loaded - 1) * 1.0 / ret.capacity);
 				}
 			} else {
-				break;
+				std::cerr << "Error: found key " << key.c_str()
+					<< " in the table, exit..." << std::endl;
+				exit(1);
 			}
 		}
 	}

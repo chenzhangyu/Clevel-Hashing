@@ -172,7 +172,9 @@ main(int argc, char *argv[])
 			if (ret) {
 				loaded++;
 			} else {
-				break;
+				std::cerr << "Error: found key " << key.c_str()
+					<< " in the table, exit..." << std::endl;
+				exit(1);
 			}
 
 			if (loaded % 10000 == 0)
