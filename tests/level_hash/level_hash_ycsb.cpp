@@ -19,7 +19,7 @@
 #include "../profile.hpp"
 #include <libpmemobj++/experimental/level_hash.hpp>
 
-#define VALUE_LEN 16
+// #define VALUE_LEN 16
 // #define LATENCY_ENABLE 1
 
 #ifdef MACRO_TEST_FOR_LEVEL_HASH
@@ -36,7 +36,6 @@
 
 #endif
 
-// #define PROFILE_ENABLED 1
 
 namespace nvobj = pmem::obj;
 

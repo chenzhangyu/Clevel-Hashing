@@ -18,7 +18,7 @@
 
 #define LAYOUT "clht"
 #define KEY_LEN 15
-#define VALUE_LEN 16
+// #define VALUE_LEN 16
 // #define LATENCY_ENABLE 1
 
 #ifdef MACRO_TEST_FOR_CLHT
@@ -34,8 +34,6 @@
 #define READ_WRITE_NUM 16000000
 
 #endif
-
-// #define PROFILE_ENABLED 1
 
 namespace nvobj = pmem::obj;
 

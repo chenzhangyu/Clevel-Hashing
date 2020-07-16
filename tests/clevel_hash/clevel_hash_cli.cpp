@@ -77,10 +77,6 @@ delete_item(nvobj::pool<root> &pop, int i)
 	auto map = pop.root()->cons;
 	UT_ASSERT(map != nullptr);
 
-	// uint8_t key[KEY_LEN] = {0};
-
-	// snprintf(reinterpret_cast<char *>(key), KEY_LEN, "%d", i);
-
 	auto r = map->erase(persistent_map_type::key_type(i), 1);
 
 	if (r.found)
@@ -124,8 +120,6 @@ print_usage(char *exe)
 void
 simple_test(nvobj::pool<root> &pop)
 {
-	// const size_t level_size = 12;
-
 	auto map = pop.root()->cons;
 
 	UT_ASSERT(map != nullptr);

@@ -18,7 +18,7 @@
 
 #define LAYOUT "clevel_hash"
 #define KEY_LEN 15
-#define VALUE_LEN 16
+// #define VALUE_LEN 16
 // #define LATENCY_ENABLE 1
 
 #ifdef MACRO_TEST_FOR_CLEVEL_HASH
@@ -34,8 +34,6 @@
 #define READ_WRITE_NUM 16000000
 
 #endif
-
-// #define PROFILE_ENABLED 1
 
 namespace nvobj = pmem::obj;
 
@@ -149,11 +147,6 @@ main(int argc, char *argv[])
 	s >> thread_num;
 
 	assert(thread_num > 1);
-
-#ifdef PROFILE_ENABLED
-	printf("In profiling, thread_num is required to be 2\n");
-	thread_num = 2;
-#endif
 
 	// initialize clevel hash
 	nvobj::pool<root> pop;
@@ -285,43 +278,6 @@ main(int argc, char *argv[])
 #endif
     clock_gettime(CLOCK_MONOTONIC, &start);
 
-#ifdef PROFILE_ENABLED
-	System::profile("runing", [&](){
-		printf("Start profiling\n");
-		for (size_t j = 0; j < READ_WRITE_NUM / thread_num; j++)
-		{
-			if (THREADS[0].run_queue[j].operation == clevel_op::INSERT)
-			{
-				auto ret = map->insert(persistent_map_type::value_type(
-					THREADS[0].run_queue[j].key,
-					THREADS[0].run_queue[j].key),
-				1, j);
-				if (ret.found)
-				{
-					THREADS[0].inserted++;
-				}
-			}
-			else if (THREADS[0].run_queue[j].operation == clevel_op::READ)
-			{
-				auto ret = map->search(persistent_map_type::key_type(
-					THREADS[0].run_queue[j].key));
-				if (ret.found)
-				{
-					THREADS[0].found++;
-				}
-				else
-				{
-					THREADS[0].unfound++;
-				}
-			}
-			else
-			{
-				printf("unknown clevel_op\n");
-				exit(1);
-			}
-		}
-	});
-#else
 	for (size_t i = 0; i < thread_num; i++)
 	{
 		threads.emplace_back([&](size_t thread_id) {
@@ -397,7 +353,6 @@ main(int argc, char *argv[])
 	for (auto &t : threads) {
 		t.join();
 	}
-#endif
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 	size_t elapsed = static_cast<size_t>((end.tv_sec - start.tv_sec) * 1000000000 +
