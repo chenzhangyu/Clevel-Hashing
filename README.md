@@ -4,14 +4,43 @@ Clevel Hashing
 Clevel hashing is a lock-free PM hashing index with asynchronous resizing, which supports lock-free operations for search/insertion/update/deletion. This repository is the implementation of "Lock-free Concurrent Level Hashing for Persistent Memory", in Proceedings of the USENIX Annual Technical Conference (USENIX ATC), 2020.
 
 ## Implementation & Tests
-We implement clevel hashing with PMDK and provide query interfaces similar to the `concurrent_hash_map` in libpmemobj-cpp. The [implementation](include/libpmemobj%2B%2B/experimental/clevel_hash.hpp) and [tests](tests/clevel_hash) for clevel hashing are based on the libpmemobj-cpp ([commit@26c86b4699](https://github.com/pmem/libpmemobj-cpp/tree/26c86b46997d25c818b246f2a143d2248503cc67)). Hence, for compilation, please refer to the documentation of libpmemobj-cpp, which is provided [below](#libpmemobj-cpp).
+We implement clevel hashing with PMDK and provide query interfaces similar to the `concurrent_hash_map` in libpmemobj-cpp. The [implementation](include/libpmemobj%2B%2B/experimental/clevel_hash.hpp) and [tests](tests/clevel_hash) for clevel hashing are based on the libpmemobj-cpp ([commit@26c86b4699](https://github.com/pmem/libpmemobj-cpp/tree/26c86b46997d25c818b246f2a143d2248503cc67)). 
+
+## Compilation
+
+#### Requirements:
+- cmake >= 3.3
+- libpmemobj-dev(el) >= 1.4 (http://pmem.io/pmdk/)
+- compiler with C++11 support
+
+#### How to build
+We only ran our tests on Linux (Ubuntu 18.04). Run the following commands for compilation:
+```sh
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make -j
+```
+
+To compile with TBB enabled, please run the following commands:
+```sh
+$ mkdir build
+$ cd build
+$ cmake .. -DUSE_TBB=1
+$ make -j
+```
+
+## Run
+Please refer to the [instructions](tests/clevel_hash) for the use of test files.
 
 ## Limitation
-- Current tests are used for the performance evaluation and not designed for `ctest`. Please refer to the [instructions](tests/clevel_hash) for the use of test files.
+- Current tests are used for the performance evaluation and not designed for `ctest`.
 
 ## Contact
 If you have any problems, please feel free to contact me.
 - Zhangyu Chen (chenzy@hust.edu.cn)
+
+**\*\*\*\*Following documentation comes from original libpmemobj-cpp\*\*\*\***
 
 ------
 
