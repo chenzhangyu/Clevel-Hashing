@@ -632,7 +632,7 @@ clevel_hash<Key, T, Hash, KeyEqual, HashPower>::del_dup(
 
 		// 2. Refer to different locations with the same contents
 		else if (key_equal{}(e1.get_address(my_pool_uuid)->first,
-			e1.get_address(my_pool_uuid)->first))
+			e2.get_address(my_pool_uuid)->first))
 		{
 			if (CAS(&(p2->p.off), e2.raw(), 0))
 			{
